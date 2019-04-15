@@ -1,0 +1,11 @@
+.to-Do-Item{
+    font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    font-size: 24px;
+    color: #4d4d4d;
+}
+
+.to-Do-Item-Done{
+    text-decoration: line-through;
+    opacity: 0.3;
+}
