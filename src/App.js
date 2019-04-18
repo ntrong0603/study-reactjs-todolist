@@ -8,15 +8,24 @@ import checkAll from './components/images/check-all.svg';
 class App extends Component {
   constructor(){
     super();
-    this.state ={ 
-      todoItems:  [
-        {title: "Ăn", isComplete: false},
-        {title: "Uống", isComplete: false},
-        {title: "Nhậu", isComplete: true}
-      ],
-      statusCheck: false,
-      haveItemsConpleted: true,
-      curentFilterItem: "All" // All, completed, active
+    if(localStorage.getItem('todoItems') !== null){
+      const Items = JSON.parse(localStorage.getItem("todoItems"));
+      console.log(Items);
+      this.state ={
+        todoItems: [...Items.todoItems],
+        statusCheck: Items.statusCheck,
+        haveItemsConpleted: Items.haveItemsConpleted,
+        curentFilterItem: Items.curentFilterItem
+      };
+    }
+    else{
+      this.state ={ 
+        todoItems: [],
+        statusCheck: false,
+        haveItemsConpleted: false,
+        curentFilterItem: "All" // All, completed, active
+      }
+      localStorage.todoItems = JSON.stringify(this.state);
     }
     // su ly
     this.onKeyUp = this.onKeyUp.bind(this);
@@ -111,6 +120,7 @@ class App extends Component {
         todoItems: todoItems
       });
       this.statusCheck(todoItems);
+      
     };
   }
 
@@ -143,11 +153,13 @@ class App extends Component {
        });
       event.target.value = "";
     }
+    
   }
 
   //truyen 1 function thong qua props
   render() {
     const {todoItems, statusCheck, haveItemsConpleted, curentFilterItem} = this.state;
+    localStorage.todoItems = JSON.stringify(this.state);
     let todoItems2 = [...todoItems];
     switch (curentFilterItem){
       case "Completed":

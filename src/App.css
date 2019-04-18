@@ -38,9 +38,11 @@
 }
 .App .header img.check{
   opacity: 1;
+  
 }
 .App .header img.hidden{
   opacity: 0;
+  cursor: default;
 }
 .App .header input[type = "text"]{
   flex-grow: 9;
