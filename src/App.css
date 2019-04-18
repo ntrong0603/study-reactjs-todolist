@@ -22,6 +22,41 @@
   
 }
 
+.App .header{
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid darkgray;
+}
+
+.App .header img{
+  width: 20px;
+  height: 20px;
+  flex-grow: 1;
+  opacity: 0.2;
+  cursor: pointer;
+}
+.App .header img.check{
+  opacity: 1;
+}
+.App .header img.hidden{
+  opacity: 0;
+}
+.App .header input[type = "text"]{
+  flex-grow: 9;
+  border: none;
+  font-size: 20px;
+  padding: 10px 5px;
+}
+.App .header input[type = "text"]:focus{
+  border: none;
+  outline: none;
+}
+.App .header input[type = "text"]::placeholder{
+  font-style: italic;
+  color: #ebe8e7;
+}
+
 .App-link {
   color: #61dafb;
 }

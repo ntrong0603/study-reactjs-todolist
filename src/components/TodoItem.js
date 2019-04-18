@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import './TodoItem.css';
 import checkImg from "./images/check.svg";
 import checkImg_done from "./images/check-complete.svg";
+import deleteItem from "./images/delete.svg";
 
 //khai bao class
 // trong react props la read only
@@ -26,7 +27,7 @@ class TodoItem extends Component{
     // }
 
     render() {
-        const {item, onClick} = this.props;
+        const {item, onClick, onDelete} = this.props;
         // /*
         // hoac dung const {item} = this.props;
         // */
@@ -44,6 +45,7 @@ class TodoItem extends Component{
             <div  className = {classnames( 'to-Do-Item', {'to-Do-Item-Done': item.isComplete})}>
                 <img onClick = {onClick} src = {url} alt = {item.title} />
                 <p> {item.title}</p>
+                <img className = "btnDelete" onClick = {onDelete} src = {deleteItem} alt = {`delete ` + item.title}/>
             </div>
         );
     }

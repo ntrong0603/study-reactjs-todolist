@@ -13,10 +13,18 @@
     font-size: 18px;
     margin: 0px;
     margin-left: 20px;
+    flex-grow: 8;
 }
 .to-Do-Item img{
     width: 30px;
     cursor: pointer;
+}
+.to-Do-Item .btnDelete{
+    display: none;
+    width: 20px
+}
+.to-Do-Item:hover > .btnDelete{
+    display: block;
 }
 .to-Do-Item:not(:last-child){
     border-bottom: 1px solid darkgray;
