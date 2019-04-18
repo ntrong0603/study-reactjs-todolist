@@ -10,14 +10,17 @@ class App extends Component {
     super();
     this.state ={ 
       todoItems:  [
-          { title: 'Mua bin bin', isComplete: false }, 
-          { title: 'An' , isComplete: false}, 
-          { title: 'uong' , isComplete: false}
-        ],
-      statusCheck: false
+        {title: "Ăn", isComplete: false},
+        {title: "Uống", isComplete: false},
+        {title: "Nhậu", isComplete: true}
+      ],
+      statusCheck: false,
+      haveItemsConpleted: true,
+      curentFilterItem: "All" // All, completed, active
     }
     // su ly
     this.onKeyUp = this.onKeyUp.bind(this);
+    this.onDeleteCompleted = this.onDeleteCompleted.bind(this);
   }
 
   // khong truyen ham vao su kien su ly ma goi luon tra ve 1 ham arrow function khac
@@ -36,23 +39,42 @@ class App extends Component {
         todoItems: todoItems
       });
       this.statusCheck(todoItems);
+      this.itemsComplete(todoItems);
     }
   }
 
+  // trang thai cho nut chon tat ca
+  // neu co mot phan tu chua hoan thanh thi nut chon tat ca o trang thai false
   statusCheck(todoItems){
-    const result = todoItems.filter(item => item.isComplete === false);
-      if(result.length > 0 || todoItems.length === 0){
-        this.setState({
-          statusCheck: false
-        });
-      }
-      else{
-        this.setState({
-          statusCheck: true
-        });
-      }
+    const statusCheck = todoItems.filter(item => item.isComplete === false);
+    if(statusCheck.length > 0){
+      this.setState({
+        statusCheck: false
+      });
+    }
+    else{
+      this.setState({
+        statusCheck: true
+      });
+    }
   }
 
+  // co mot phan tu duoc hoan thanh thi hien thi btn cho phep xoa cac phan tu hoan thanh
+  itemsComplete(todoItems){
+    const haveItemsConpleted = todoItems.filter(item => item.isComplete === true);
+    if(haveItemsConpleted.length === 0){
+      this.setState({
+        haveItemsConpleted: false
+      });
+    }
+    else{
+      this.setState({
+        haveItemsConpleted: true
+      });
+    }
+  }
+
+  // Chon tat ca
   onCheckAll(){
     return () => {
       const todoItems = [...this.state.todoItems];
@@ -64,10 +86,21 @@ class App extends Component {
           ...todoItems
         ],
         statusCheck: statusCheck
-      })
+      });
+      this.itemsComplete(todoItems);
     }
   }
 
+  // loc
+  onFilter(filter){
+    return () => {
+      this.setState({
+        curentFilterItem: filter 
+      });
+    }
+  }
+
+  //xoa 1 phan tu chi dinh
   onDelete(item){
     return () => {
       const index = this.state.todoItems.indexOf(item);
@@ -79,6 +112,14 @@ class App extends Component {
       });
       this.statusCheck(todoItems);
     };
+  }
+
+  onDeleteCompleted(){
+    const todoItems = this.state.todoItems;
+    this.setState({
+      todoItems: [...todoItems.filter( item => item.isComplete === false)]
+    });
+    this.itemsComplete(todoItems);
   }
 
   onKeyUp(event){
@@ -106,18 +147,31 @@ class App extends Component {
 
   //truyen 1 function thong qua props
   render() {
-    const {todoItems, statusCheck} = this.state;
+    const {todoItems, statusCheck, haveItemsConpleted, curentFilterItem} = this.state;
+    let todoItems2 = [...todoItems];
+    switch (curentFilterItem){
+      case "Completed":
+        todoItems2 = todoItems2.filter(item => item.isComplete === true);
+        break;
+      case "Active":
+        todoItems2 = todoItems2.filter(item => item.isComplete === false)
+        break;
+      default:
+        break;
+    }
+
+    
     return (
       <div className="App">
           <div className="Title">
             <h2>Todo List</h2>
           </div>
           <div className = "header">
-            <img className={classnames({'check': statusCheck}, {'hidden': todoItems.length === 0})} src = {checkAll} alt = "check all" onClick = {this.onCheckAll()}/>
+            <img className={classnames({'check': statusCheck}, {'hidden': todoItems2.length === 0})} src = {checkAll} alt = "check all" onClick = {this.onCheckAll()}/>
             <input type = "text" name = "work" placeholder = "What needs to be done?" autoComplete = "off" onKeyUp = {this.onKeyUp}/>
           </div>
           {
-            todoItems.length > 0 && todoItems.map(
+            todoItems2.length > 0 && todoItems2.map(
               (item, index) => 
               <TodoItem 
                 key = {index} 
@@ -126,6 +180,29 @@ class App extends Component {
                 onDelete ={this.onDelete(item)}
               />
             )
+          }
+          {
+            todoItems.length > 0 &&
+              <div id="status-bar">
+                <div id = "countItemsNotDone">
+                  {todoItems.filter(item => item.isComplete === false).length} item left
+                </div>
+                <div id = "filter-bar">
+                  <div id="filter-all" onClick = {this.onFilter('All')}>
+                    All
+                  </div>
+                  <div id="filter-active" onClick = {this.onFilter('Active')}>
+                    Active
+                  </div>
+                  <div id="filter-completed" onClick = {this.onFilter('Completed')}>
+                    Completed
+                  </div>
+                </div>
+                <div id = "clear-completed" className = {classnames({'hidden-completed': !haveItemsConpleted})} onClick = {this.onDeleteCompleted}>
+                  Clear completed
+                </div>
+              </div>
+            
           }
          
       </div>

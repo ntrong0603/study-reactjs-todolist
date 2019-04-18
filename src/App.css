@@ -74,3 +74,42 @@
     transform: rotate(360deg);
   }
 }
+.App #status-bar{
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: 13px;
+  color: darkgray;
+  padding: 10px;
+}
+.App #status-bar #countItemsNotDone{
+  flex-grow: 2;
+  cursor: default;
+}
+.App #status-bar #filter-bar{
+  flex-grow: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.App #status-bar #clear-completed{
+  flex-grow: 2;
+  cursor: pointer;
+}
+.App #status-bar #clear-completed.hidden-completed{
+  opacity: 0;
+  cursor: default;
+}
+.App #status-bar #filter-bar #filter-all{
+  margin: 0 5px;
+  cursor: pointer;
+}
+.App #status-bar #filter-bar #filter-active{
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.App #status-bar #filter-bar #filter-completed{
+  margin: 0 5px;
+  cursor: pointer;
+}
