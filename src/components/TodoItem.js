@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 
 // them thu vien classnames de xu ly su kioen len quan den class css
 import classnames from 'classnames';
+import PropTypes from 'prop-types'; 
 
 import './TodoItem.css';
 import checkImg from "./images/check.svg";
@@ -51,4 +52,14 @@ class TodoItem extends Component{
     }
 }
 
+// ghi lai cac thuoc tinh du dinh cho props, canh bao neu khong trung khop
+// add prop-types de su dung
+TodoItem.prototype = {
+    item: PropTypes.shape({
+        isComplete: PropTypes.bool.isRequired,
+        title: PropTypes.string.isRequired// thuoc tinh bat buoc phai co thi them isRequired
+    }),
+    onClick: PropTypes.func,
+    onDelete: PropTypes.func
+}
 export default TodoItem;
